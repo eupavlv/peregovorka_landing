@@ -1,0 +1,7 @@
+.claude/
+.DS_Store
+index.bundle.bak.html
+
+# служебные документы — не публикуем на GitHub
+*.md
+
