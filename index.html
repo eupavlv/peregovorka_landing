@@ -526,6 +526,8 @@
   }
   /* tighter space between title and lead paragraph */
   .hero-win .win-body .display + .lead{ margin-top: -16px; }
+  /* tighter space between lead and byline */
+  .hero-win .win-body .lead + .hero-byline{ margin-top: -16px; }
   .hero-eyebrow{
     display: inline-flex; align-items: center; gap: 10px;
     font-family: var(--mono); font-size: 12px; color: var(--ink-soft);
@@ -721,7 +723,10 @@
     color: rgba(255,255,255,.78);
   }
   @media (min-width: 720px){
-    .big-folders{ grid-template-columns: repeat(4, 1fr); gap: 32px 20px; padding: 30px 18px 22px; }
+    .big-folders{ grid-template-columns: repeat(3, 1fr); gap: 32px 20px; padding: 30px 18px 22px; }
+  }
+  @media (min-width: 1080px){
+    .big-folders{ grid-template-columns: repeat(5, 1fr); gap: 28px 16px; }
   }
   .big-folder{
     appearance: none;
@@ -845,6 +850,19 @@
   }
   .modal-list{ display: flex; flex-direction: column; }
   .modal-list .file-row{ font-size: 15px; }
+  .modal-group{ display: flex; flex-direction: column; margin-top: 18px; }
+  .modal-group:first-child{ margin-top: 0; }
+  .modal-group-name{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 0 4px 8px;
+    border-bottom: 1px dashed var(--line);
+    margin-bottom: 6px;
+  }
+  .modal-group .file-row + .file-row{ border-top: 1px solid var(--line-2); }
   .modal-cta-row{
     display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
     margin-top: 22px;
@@ -973,6 +991,15 @@
   .check.no{ background: var(--bar); color: var(--ink-soft); }
 
   /* ---------- 07 reviews ---------- */
+  .cases-empty{
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .cases-empty .win-body p{
+    font-size: 16px; line-height: 1.55; color: var(--ink);
+    margin: 0;
+    text-wrap: pretty;
+  }
   .review-grid{
     display: grid; grid-template-columns: 1fr; gap: 20px;
   }
@@ -1023,7 +1050,27 @@
     color: var(--accent);
   }
   .price-tag .cur{ font-size: .6em; vertical-align: top; margin-left: .12em; }
+  .price-tag-row{
+    display: flex; align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .price-tag-old{
+    font-family: var(--mono);
+    font-size: clamp(20px, 3vw, 28px);
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+  }
   .price-meta{ font-family: var(--mono); font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+  .price-invite{
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 18px 0 0;
+    max-width: 40ch;
+    text-wrap: pretty;
+  }
   .price-list{ list-style: none; margin: 0 0 24px; padding: 0; }
   .price-list li{ display: flex; gap: 10px; padding: 8px 0; font-size: 16px; line-height: 1.45; }
   .price-list .ic{ flex-shrink: 0; color: var(--accent); }
@@ -1288,7 +1335,7 @@
           <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
         </svg>
         <span class="bf-label" style="font-family: &quot;JetBrains Mono&quot;">Уроки</span>
-        <span class="bf-meta">9 файлов · .mp4</span>
+        <span class="bf-meta">35+ уроков</span>
       </button>
 
       <button type="button" class="big-folder" data-folder="podcasts" aria-haspopup="dialog">
@@ -1298,7 +1345,7 @@
           <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
         </svg>
         <span class="bf-label" style="font-family: &quot;JetBrains Mono&quot;">Подкасты</span>
-        <span class="bf-meta">7 файлов · .mp3</span>
+        <span class="bf-meta">20+ подкастов</span>
       </button>
 
       <button type="button" class="big-folder" data-folder="lives" aria-haspopup="dialog">
@@ -1307,8 +1354,18 @@
           <path d="M6 44h182v82c0 8-6 14-14 14H20c-8 0-14-6-14-14V44z" fill="#E5A1A5"></path>
           <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
         </svg>
-        <span class="bf-label" style="font-family: &quot;JetBrains Mono&quot;">Живые эфиры</span>
-        <span class="bf-meta">2–4 нед. · live</span>
+        <span class="bf-label" style="font-family: &quot;JetBrains Mono&quot;">Эфиры</span>
+        <span class="bf-meta">14+ эфиров</span>
+      </button>
+
+      <button type="button" class="big-folder" data-folder="digest" aria-haspopup="dialog">
+        <svg class="bf-icon" viewBox="0 0 200 160" fill="none" aria-hidden="true">
+          <path d="M6 32c0-8 6-14 14-14h44l16 16h94c8 0 14 6 14 14v94c0 8-6 14-14 14H20c-8 0-14-6-14-14V32z" fill="#8E67A8"></path>
+          <path d="M6 44h182v82c0 8-6 14-14 14H20c-8 0-14-6-14-14V44z" fill="#C7A6E0"></path>
+          <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
+        </svg>
+        <span class="bf-label" style="font-family: &quot;JetBrains Mono&quot;">Дайджест трендов</span>
+        <span class="bf-meta">2 раза в месяц</span>
       </button>
 
       <button type="button" class="big-folder" data-folder="chat" aria-haspopup="dialog">
@@ -1345,10 +1402,10 @@
           <h3 class="h-card" style="margin-bottom: 6px;">Подойдёт, если</h3>
           <ul class="checklist">
             <li><span class="check ok">✓</span><span>Ведёшь Instagram или&nbsp;только начинаешь</span></li>
-            <li><span class="check ok">✓</span><span>Снимаешь рилс, но&nbsp;не понимаешь почему одно заходит, а&nbsp;другое нет</span></li>
+            <li><span class="check ok">✓</span><span>Снимаешь рилс, но&nbsp;не&nbsp;понимаешь, почему одно заходит, а&nbsp;другое нет</span></li>
             <li><span class="check ok">✓</span><span>Хочешь разобраться в&nbsp;сценариях, форматах и&nbsp;алгоритмах системно</span></li>
-            <li><span class="check ok">✓</span><span>Готова не&nbsp;только читать, но&nbsp;и пробовать</span></li>
-            <li><span class="check ok">✓</span><span>Тебе важно быть среди людей, которые тоже в&nbsp;процессе</span></li>
+            <li><span class="check ok">✓</span><span>Хочешь не&nbsp;только смотреть, но&nbsp;и пробовать</span></li>
+            <li><span class="check ok">✓</span><span>Тебе важно быть среди тех, кто тоже в&nbsp;процессе</span></li>
           </ul>
         </div>
       </article>
@@ -1363,47 +1420,31 @@
           <ul class="checklist">
             <li><span class="check no" style="color: rgb(255, 255, 255); background-color: rgb(163, 45, 62)">×</span><span>Ждёшь гарантий роста на&nbsp;конкретное число подписчиков</span></li>
             <li><span class="check no" style="background-color: rgb(163, 45, 62); color: rgb(255, 255, 255)">×</span><span>Хочешь шаблоны «скопируй и&nbsp;вставь»</span></li>
-            <li><span class="check no" style="color: rgb(255, 255, 255); background-color: rgb(163, 45, 62)">×</span><span>Не готова тратить хотя&nbsp;бы час в&nbsp;неделю на&nbsp;материал</span></li>
+            <li><span class="check no" style="color: rgb(255, 255, 255); background-color: rgb(163, 45, 62)">×</span><span>Не&nbsp;хочешь тратить хотя&nbsp;бы час в&nbsp;неделю на&nbsp;материал</span></li>
           </ul>
         </div>
       </article>
     </div>
   </section>
 
-  <!-- ========== 07 ОТЗЫВЫ ========== -->
-  <section class="section" data-screen-label="07 Отзывы">
+  <!-- ========== 07 КЕЙСЫ ========== -->
+  <section class="section" data-screen-label="07 Кейсы">
     <header class="section-head">
       <div>
-        <h2 class="h-section">Отзывы коллег</h2>
+        <h2 class="h-section">Кейсы</h2>
       </div>
-      <div class="section-path">~/peregovorka/reviews</div>
+      <div class="section-path">~/peregovorka/cases</div>
     </header>
 
-    <div class="review-grid">
-      <div class="review">
-        <div class="placeholder">скоро · отзыв 1</div>
-        <p class="quote">«Цитата от&nbsp;участницы — место заполнится после первого месяца запуска.»</p>
-        <div class="who"><b>@nickname</b><span>·</span></div>
+    <div class="win cases-empty">
+      <div class="win-bar">
+        <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+        <div class="win-title">cases.md</div>
       </div>
-      <div class="review">
-        <div class="placeholder">скоро · отзыв 2</div>
-        <p class="quote">«Цитата от&nbsp;участницы — место заполнится после первого месяца запуска.»</p>
-        <div class="who"><b>имя</b><span>·</span></div>
-      </div>
-      <div class="review">
-        <div class="placeholder">скоро · отзыв 3</div>
-        <p class="quote">«Цитата от&nbsp;участницы — место заполнится после первого месяца запуска.»</p>
-        <div class="who"><b>@nickname</b><span>·</span></div>
-      </div>
-      <div class="review">
-        <div class="placeholder">скоро · отзыв 4</div>
-        <p class="quote">«Цитата от&nbsp;участницы — место заполнится после первого месяца запуска.»</p>
-        <div class="who"><b>имя</b><span>·</span></div>
-      </div>
-      <div class="review">
-        <div class="placeholder">скоро · отзыв 5</div>
-        <p class="quote">«Цитата от&nbsp;участницы — место заполнится после первого месяца запуска.»</p>
-        <div class="who"><b>@nickname</b><span>·</span></div>
+      <div class="win-body">
+        <p class="body">
+          Реальные истории участников с&nbsp;цифрами — рост подписчиков, охваты, просмотры. Первые результаты уже собираются, скоро появятся здесь.
+        </p>
       </div>
     </div>
   </section>
@@ -1426,15 +1467,22 @@
         <div class="price-row">
           <div>
             <div class="price-meta">переговорка · подписка</div>
-            <div class="price-tag" style="font-size: 88px">1 990<span class="cur"> ₽</span></div>
-            <div class="muted body" style="margin-top: 4px;">в месяц, ежемесячно</div>
+            <div class="price-tag-row">
+              <s class="price-tag-old">3 990 ₽</s>
+              <div class="price-tag" style="font-size: 88px">1 990<span class="cur"> ₽</span></div>
+            </div>
+            <div class="muted body" style="margin-top: 4px;">твоя цена, пока ты в клубе</div>
+            <p class="price-invite">
+              Загляни в бота — там уже ждёт первый пробный урок, и зайти можно за 1990. Единственное: 1990 действует только сутки. Дальше цена станет 3990, а поймать её снова получится только через месяц.
+            </p>
           </div>
 
           <div>
             <ul class="price-list">
-              <li><span class="ic">›</span><span>Новые уроки, подкасты и&nbsp;эфиры — каждый месяц.</span></li>
-              <li><span class="ic">›</span><span>Старые материалы остаются доступны всё время пока ты&nbsp;с&nbsp;нами.</span></li>
-              <li><span class="ic">›</span><span>Иногда открываем доступ по&nbsp;промо-цене — следи за&nbsp;анонсами</span></li>
+              <li><span class="ic">›</span><span>Новые уроки, подкасты и&nbsp;эфиры — каждый месяц</span></li>
+              <li><span class="ic">›</span><span>Все материалы остаются, пока ты&nbsp;в&nbsp;клубе</span></li>
+              <li><span class="ic">›</span><span>Цена закрепляется — 1&nbsp;990&nbsp;₽, пока не&nbsp;выйдешь</span></li>
+              <li><span class="ic">›</span><span>Иногда открываем вход по&nbsp;промо — следи за&nbsp;анонсами</span></li>
             </ul>
             <a href="#join" class="btn js-cta" style="width: 100%;">
               Вступить в Переговорку
@@ -1465,55 +1513,73 @@
           <details class="faq" open="">
             <summary>
               <span class="num">01.</span>
-              <span class="q">Я новичок, мне&nbsp;подойдёт?</span>
+              <span class="q">Это для новичков или для&nbsp;продвинутых?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Да. Большинство участников начинают с&nbsp;небольшой аудиторией или&nbsp;вообще с&nbsp;нуля. Уровень уроков — от&nbsp;базового к&nbsp;сложному.</div>
+            <div class="a">Для всех уровней. Переговорка — это не&nbsp;«курс для начинающих», а&nbsp;место, где практикуешься и&nbsp;ищешь новые идеи, а&nbsp;это нужно всем: и&nbsp;когда только начинаешь, и&nbsp;когда давно в&nbsp;блоге, но&nbsp;хочется свежего взгляда и&nbsp;роста. Новичкам — по&nbsp;шагам от&nbsp;простого к&nbsp;сложному, практикующим — идеи, разборы и&nbsp;обратная связь, которых обычно не&nbsp;хватает.</div>
           </details>
 
           <details class="faq">
             <summary>
               <span class="num">02.</span>
-              <span class="q">Что если пропущу эфир?</span>
+              <span class="q">Это курс или подписка?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Все записи остаются в&nbsp;канале. Смотришь когда удобно, ничего не&nbsp;теряешь.</div>
+            <div class="a">Подписка. Никаких дедлайнов и&nbsp;обязательной программы — сам выбираешь, что смотреть и&nbsp;в&nbsp;каком темпе. Захотелось разобраться с&nbsp;воронками — идёшь в&nbsp;воронки. Нужны сценарии — открываешь сценарии.</div>
           </details>
 
           <details class="faq">
             <summary>
               <span class="num">03.</span>
-              <span class="q">Это курс или подписка?</span>
+              <span class="q">А если пропущу эфир?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Подписка. Нет дедлайнов, нет&nbsp;обязательной программы. Ты&nbsp;сама выбираешь что&nbsp;смотреть и&nbsp;в&nbsp;каком темпе.</div>
+            <div class="a">Ничего не&nbsp;потеряешь — все записи остаются в&nbsp;канале. Посмотришь, когда будет удобно.</div>
           </details>
 
           <details class="faq">
             <summary>
               <span class="num">04.</span>
-              <span class="q">Чем отличается от&nbsp;бесплатных материалов?</span>
+              <span class="q">Есть ли чат?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Здесь всё выстроено в&nbsp;одну логику и&nbsp;один голос, плюс живая обратная связь на&nbsp;эфирах. Это сложно заменить подборкой роликов из&nbsp;разных источников.</div>
+            <div class="a">Есть, общий чат коллег. Туда можно скинуть сценарий на&nbsp;свежий взгляд, спросить совет или&nbsp;просто поныть про&nbsp;алгоритмы среди своих — тут все в&nbsp;теме.</div>
           </details>
 
           <details class="faq">
             <summary>
               <span class="num">05.</span>
-              <span class="q">Можно ли отписаться?</span>
+              <span class="q">Как я получу доступ?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Да, в&nbsp;любой момент. Никаких условий.</div>
+            <div class="a">Переговорка — это закрытый Telegram-канал. Доступ приходит на&nbsp;почту (не&nbsp;в&nbsp;бота!), так что заполняй поле с&nbsp;почтой внимательно — именно туда придёт ссылка на&nbsp;вход. А&nbsp;ещё каждый урок продублирован отдельной ссылкой: её&nbsp;можно открыть прямо в&nbsp;браузере, без&nbsp;Telegram, если вдруг будут сложности с&nbsp;подключением.</div>
           </details>
 
           <details class="faq">
             <summary>
               <span class="num">06.</span>
-              <span class="q">Есть ли чат?</span>
+              <span class="q">А что с ценой дальше?</span>
               <span class="plus">+</span>
             </summary>
-            <div class="a">Да, общий чат участников — туда можно скидывать сценарии, спрашивать совет и&nbsp;обсуждать контент с&nbsp;коллегами.</div>
+            <div class="a">Пока ты в&nbsp;клубе — твои 1990 остаются с&nbsp;тобой: каждый месяц списывается столько&nbsp;же, цена не&nbsp;растёт. Выйдешь и&nbsp;захочешь вернуться — вход будет уже 3990. Так что оставаться выгоднее.</div>
+          </details>
+
+          <details class="faq">
+            <summary>
+              <span class="num">07.</span>
+              <span class="q">Можно ли отписаться?</span>
+              <span class="plus">+</span>
+            </summary>
+            <div class="a">Конечно. Подпиской управляешь через свою почту — за&nbsp;3&nbsp;дня до&nbsp;следующего списания на&nbsp;неё приходит ссылка на&nbsp;отмену. Единственное: пока ты&nbsp;в&nbsp;клубе, за&nbsp;тобой закреплена цена 1990. Выйдешь — повторный вход будет уже 3990.</div>
+          </details>
+
+          <details class="faq">
+            <summary>
+              <span class="num">08.</span>
+              <span class="q">Что-то не пришло или не&nbsp;открывается?</span>
+              <span class="plus">+</span>
+            </summary>
+            <div class="a">Бывает. Если ссылка не&nbsp;дошла или не&nbsp;получается открыть Переговорку — напиши мне на&nbsp;почту <a href="mailto:nika.tells.chat@yandex.com">nika.tells.chat@yandex.com</a> или в&nbsp;телеграм <a href="https://t.me/tells_nika" target="_blank" rel="noopener">@tells_nika</a>. Разберёмся.</div>
           </details>
         </div>
       </div>
@@ -1673,50 +1739,92 @@
     const FOLDERS = {
       lessons: {
         title: '~/peregovorka/уроки',
-        meta:  '9 файлов · .mp4',
-        intro: 'Видеоуроки. Выходят регулярно, остаются в&nbsp;канале — смотришь в&nbsp;своём темпе.',
-        items: [
-          'Типы блогеров',
-          'Архетипы',
-          'Анализ себя, ЦА и&nbsp;конкурентов',
-          'Стратегия для роста блога',
-          'Сценарии рилс и&nbsp;триггеры',
-          'Схемы сторителлингов',
-          'Форматы: отсылки, сериал, реакции, ностальгия, новости, абсурд, боль зрителя',
-          'Threads',
-          'Воронки в&nbsp;актуальном и&nbsp;шапке профиля',
+        meta:  '35+ уроков · .mp4',
+        intro: 'Видеоуроки, новые каждый месяц. Смотришь в&nbsp;своём темпе, старое остаётся в&nbsp;канале.',
+        groups: [
+          { name: 'Стратегия и аналитика', items: [
+            'Экскурсия по офису', 'Типы блогеров', 'Архетипы',
+            'Анализ: себя, ЦА и&nbsp;конкурентов', 'Стратегия для роста блога',
+          ]},
+          { name: 'Сценарии и посты', items: [
+            'Сценарии и&nbsp;триггеры', 'Схемы сторителлингов', 'Посты-карусели',
+          ]},
+          { name: 'Форматы для рилс', items: [
+            '8&nbsp;форматов: от&nbsp;сериала и&nbsp;реакций до&nbsp;ностальгии и&nbsp;абсурда',
+          ]},
+          { name: 'Триггеры', items: [
+            '10&nbsp;уроков + бонусный, 30+ триггеров на&nbsp;примерах',
+            'Текстовые шпаргалки, которые можно скачать',
+          ]},
+          { name: 'Воронки', items: [
+            'Воронка', 'Воронка в&nbsp;актуальное', 'Воронка в&nbsp;шапке',
+            'Воронка по&nbsp;кодовому слову', 'Лид-магнит', 'Лид-магнитная воронка',
+          ]},
+          { name: 'Дополнительно', items: [
+            'Threads', 'Что снимать в&nbsp;декабре', 'Золотая неделя',
+          ]},
         ],
         ext: '.mp4',
         icon: '▤',
       },
       podcasts: {
         title: '~/peregovorka/подкасты',
-        meta:  '7 файлов · .mp3',
-        intro: '«Коллеги, поболтаем» — разговорный формат про&nbsp;контент без&nbsp;воды. Можно слушать фоном.',
+        meta:  '20+ выпусков · .mp3',
+        intro: 'Разговорный формат про&nbsp;контент без&nbsp;воды. Можно слушать фоном.',
         items: [
-          'Алгоритмы рилс и&nbsp;поведение зрителей',
-          'Где брать идеи для контента',
+          'Алгоритмы рилс',
+          'Где брать идеи',
           'Как часто постить',
-          'Самый важный показатель в&nbsp;контенте',
-          'Как я&nbsp;пишу сценарий',
-          'Ошибки блогеров при написании сценариев',
-          'Показатель, который говорит что&nbsp;контент полезен',
+          'Самый важный показатель',
+          'Как я&nbsp;пишу сценарии',
+          'Ошибки при сценариях, ч.&nbsp;1',
+          'Ошибки при сценариях, ч.&nbsp;2',
+          'Быть собой в&nbsp;блоге',
+          'Сезонность',
+          'Какой контент не&nbsp;работает',
+          'Золотая неделя',
+          'Цели по&nbsp;SMART',
+          'Архетипы. Пояснительный',
+          'Игра в&nbsp;ассоциации',
+          'Мои стратегии',
+          'Контент на&nbsp;14&nbsp;февраля',
+          'Чаще или качественнее',
+          'Наблюдения за&nbsp;2&nbsp;года',
+          'Нужен ли&nbsp;контент-план',
+          'База рилс',
+          'Поведение в&nbsp;кризис',
         ],
         ext: '.mp3',
         icon: '♪',
       },
       lives: {
         title: '~/peregovorka/эфиры',
-        meta:  'live · 2–4 нед.',
-        intro: 'Раз в&nbsp;2–4&nbsp;недели: разборы рилс участников и&nbsp;совместное написание сценариев. Без строгого расписания, записи остаются.',
-        items: [
-          'Разборы рилс участников',
-          'Пишем сценарий вместе',
-          'Ежемесячный челлендж · неделя',
-          'Q&amp;A с&nbsp;Никой',
+        meta:  '14+ эфиров · live',
+        intro: 'Разборы, сценарии и&nbsp;челленджи — вживую. Без&nbsp;строгого расписания, записи остаются.',
+        groups: [
+          { name: 'Каждые 2 недели', items: [
+            'Разборы рилс (присылаешь ролик — разбираю лично)',
+            'Пишем сценарии с&nbsp;Никой (пишем вместе в&nbsp;прямом эфире)',
+          ]},
+          { name: 'Отдельные эфиры и лекции', items: [
+            'Мастер-класс по&nbsp;триггерам',
+            'Разборы воронок',
+            'Лекция «Монетизация блога»',
+            'Новогодний корпоратив-разборы',
+          ]},
+          { name: 'Челлендж-рилс', items: [
+            'Еженедельные задания (1–7)',
+          ]},
         ],
         ext: '.live',
         icon: '●',
+      },
+      digest: {
+        title: '~/peregovorka/дайджест',
+        meta:  '2 раза в месяц · live',
+        intro: '2&nbsp;раза в&nbsp;месяц выходит рубрика «Дайджест инфоповодов и&nbsp;трендов»: я&nbsp;собираю самые горячие инфоповоды и&nbsp;тренды и&nbsp;показываю, как адаптировать их&nbsp;под свою тематику — чтобы снимать контент по&nbsp;свежим темам, пока они на&nbsp;пике.',
+        ext: '',
+        icon: '',
       },
       chat: {
         title: '~/peregovorka/чат',
@@ -1742,13 +1850,26 @@
       titleEl.textContent = data.title;
       metaEl.textContent  = data.meta;
 
+      function renderItem(name){
+        return '<div class="file-row"><span class="ic">' + data.icon + '</span> ' + name + ' <span class="ext">' + data.ext + '</span></div>';
+      }
+
       let html = '';
       html += '<p class="modal-intro">' + data.intro + '</p>';
-      html += '<div class="modal-list">';
-      data.items.forEach(function(name){
-        html += '<div class="file-row"><span class="ic">' + data.icon + '</span> ' + name + ' <span class="ext">' + data.ext + '</span></div>';
-      });
-      html += '</div>';
+      if(data.groups || (data.items && data.items.length)){
+        html += '<div class="modal-list">';
+        if(data.groups){
+          data.groups.forEach(function(g){
+            html += '<div class="modal-group">';
+            html += '<div class="modal-group-name">' + g.name + '</div>';
+            g.items.forEach(function(name){ html += renderItem(name); });
+            html += '</div>';
+          });
+        } else {
+          data.items.forEach(function(name){ html += renderItem(name); });
+        }
+        html += '</div>';
+      }
       html += '<div class="modal-cta-row">';
       html += '  <a href="#price" class="btn js-cta" data-modal-cta>Вступить в Переговорку <span class="arrow">→</span></a>';
       html += '</div>';
