@@ -441,6 +441,13 @@
     display: inline-flex;
     align-items: baseline;
   }
+  /* reserve one line of height even when typed span is empty */
+  .display::before{
+    content: "\00a0";
+    display: inline-block;
+    width: 0;
+    visibility: hidden;
+  }
   .typed{ display: inline; }
   .caret{
     display: inline-block;
@@ -505,7 +512,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
-    align-items: start;
+    align-items: stretch;
   }
   @media (min-width: 980px){
     .hero-grid{ grid-template-columns: 1.4fr 1fr; gap: 36px; }
@@ -517,6 +524,8 @@
   @media (min-width: 720px){
     .hero-win .win-body{ padding-top: 56px; padding-bottom: 56px; padding-left: 44px; padding-right: 44px; gap: 36px; }
   }
+  /* tighter space between title and lead paragraph */
+  .hero-win .win-body .display + .lead{ margin-top: -16px; }
   .hero-eyebrow{
     display: inline-flex; align-items: center; gap: 10px;
     font-family: var(--mono); font-size: 12px; color: var(--ink-soft);
@@ -533,6 +542,20 @@
   }
   .hero-meta div{ font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
   .hero-meta strong{ color: var(--ink); font-weight: 700; }
+  .hero-price{ display: inline-flex; align-items: baseline; gap: 10px; }
+  .hero-price-new{
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--accent);
+    letter-spacing: -.01em;
+  }
+  .hero-price-old{
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--ink-soft);
+    text-decoration: line-through;
+  }
 
   /* sticky-note */
   .sticky{
@@ -556,9 +579,30 @@
   }
   .sticky h3{ font-family: var(--sans); font-weight: 600; font-size: 17px; margin-bottom: 8px; }
 
-  .desktop-side{ display: none; flex-direction: column; gap: 22px; }
+  .desktop-side{ display: none; flex-direction: column; gap: 22px; align-items: stretch; }
   @media (min-width: 980px){
     .desktop-side{ display: flex; }
+    .hero-photo{ aspect-ratio: auto; height: 100%; }
+    .hero-photo .win-body{ height: calc(100% - 36px); }
+  }
+  /* mobile byline: avatar + name + role — shown inside hero-win instead of portrait card */
+  .hero-byline{ display: flex; align-items: center; gap: 12px; }
+  @media (min-width: 980px){ .hero-byline{ display: none; } }
+  .hero-byline-avatar{
+    width: 56px; height: 56px;
+    border-radius: 999px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .hero-byline-text{ display: flex; flex-direction: column; gap: 2px; }
+  .hero-byline-name{
+    font-family: var(--sans); font-weight: 600; font-size: 15px;
+    color: var(--ink); letter-spacing: -.01em;
+  }
+  .hero-byline-role{
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-soft); letter-spacing: .04em;
   }
   .folder-stack{ display: flex; gap: 14px; flex-wrap: wrap; }
   .folder{
@@ -895,19 +939,11 @@
   }
   @media (min-width: 880px){ .author-grid{ grid-template-columns: 380px 1fr; gap: 32px; } }
   .photo-card{ aspect-ratio: 3/4; }
-  .photo-card .win-body{ padding: 0; height: calc(100% - 36px); }
+  .photo-card .win-body{ padding: 0; height: calc(100% - 36px); overflow: hidden; }
   .photo-fill{
+    display: block;
     width: 100%; height: 100%;
-    background:
-      radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,.45), transparent 50%),
-      linear-gradient(160deg, rgb(232,210,194), rgb(186,148,128));
-    position: relative;
-  }
-  .photo-fill::after{
-    content: "[ фото Ники ]";
-    position: absolute; inset: auto 0 16px 0;
-    text-align: center;
-    font-family: var(--mono); font-size: 11px; color: rgba(0,0,0,.5);
+    object-fit: cover;
   }
   .author-text{ display: flex; flex-direction: column; gap: 18px; }
   .author-text p{ font-size: 18px; line-height: 1.55; margin: 0; color: var(--ink); }
@@ -1185,16 +1221,19 @@
           <div class="win-title">~/peregovorka/index.html</div>
         </div>
         <div class="win-body">
-          <div class="hero-eyebrow">
-            <span class="pulse"></span>
-            <span>закрытый канал · Nikа Tells · открыт для входа</span>
-          </div>
-
           <h1 class="display"><span class="typed" id="hero-typed" aria-label="Переговорка"></span><span class="caret" aria-hidden="true"></span></h1>
 
           <p class="lead" style="max-width: 620px;">
-            Закрытый канал для коллег по контенту — про&nbsp;рилс, сценарии и&nbsp;блогинг. Тёплый офис, где приятно разбираться.
+            Не&nbsp;очередной курс, а&nbsp;клуб-практика. Смотришь уроки — и&nbsp;сразу пробуешь, вместе с&nbsp;коллегами, которые тоже растят блог.
           </p>
+
+          <div class="hero-byline">
+            <img src="assets/img/nikatells-avatar.jpg" alt="Ника" class="hero-byline-avatar" loading="eager" decoding="async">
+            <div class="hero-byline-text">
+              <div class="hero-byline-name">Nika Tells</div>
+              <div class="hero-byline-role">автор канала</div>
+            </div>
+          </div>
 
           <div class="hero-cta-row">
             <a href="#price" class="btn js-cta">
@@ -1207,36 +1246,35 @@
           </div>
 
           <div class="hero-meta">
-            <div><strong>1 990 ₽</strong> / месяц</div>
-            <div><strong>уроки · подкасты · эфиры</strong></div>
-            <div><strong>чат коллег</strong></div>
-            <div>отписка <strong>в любой момент</strong></div>
+            <div class="hero-price">
+              <span class="hero-price-new">1990 ₽</span>
+              <s class="hero-price-old">3990 ₽</s>
+            </div>
+            <div><strong>уроки · подкасты · эфиры · чат коллег</strong></div>
           </div>
         </div>
       </div>
 
-      <!-- side desktop -->
+      <!-- side: photo -->
       <div class="desktop-side">
-        <div class="sticky">
-          <h3>записка от Ники</h3>
-          коллеги, заходите. внутри — то, что я сама пересматриваю по&nbsp;понедельникам, когда не понимаю, о&nbsp;чём снимать.
-          <br><br>
-          без пафоса, без «секретных схем». просто поговорим про&nbsp;контент.
-        </div>
-
-        <div class="meme">
-          <div class="meme-img"></div>
-          <div class="meme-cap">когда алгоритм опять обновили</div>
+        <div class="win photo-card hero-photo">
+          <div class="win-bar">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <div class="win-title">nikatells.jpg</div>
+          </div>
+          <div class="win-body">
+            <img class="photo-fill" src="assets/img/nikatells.jpg" alt="Ника" loading="eager" decoding="async">
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== 02 ЧТО ЭТО ========== -->
-  <section class="section" id="about" data-screen-label="02 Что это такое">
+  <!-- ========== 02 ЧТО ВНУТРИ ========== -->
+  <section class="section" id="about" data-screen-label="02 Что внутри">
     <header class="section-head">
       <div>
-        <h2 class="h-section" style="font-family: &quot;JetBrains Mono&quot;">Что это такое</h2>
+        <h2 class="h-section" style="font-family: &quot;JetBrains Mono&quot;">Что внутри?</h2>
       </div>
       <div class="section-path">~/peregovorka/about</div>
     </header>
@@ -1396,7 +1434,6 @@
             <ul class="price-list">
               <li><span class="ic">›</span><span>Новые уроки, подкасты и&nbsp;эфиры — каждый месяц.</span></li>
               <li><span class="ic">›</span><span>Старые материалы остаются доступны всё время пока ты&nbsp;с&nbsp;нами.</span></li>
-              <li><span class="ic">›</span><span>Отписаться можно в&nbsp;любой момент — без&nbsp;объяснений.</span></li>
               <li><span class="ic">›</span><span>Иногда открываем доступ по&nbsp;промо-цене — следи за&nbsp;анонсами</span></li>
             </ul>
             <a href="#join" class="btn js-cta" style="width: 100%;">
@@ -1497,7 +1534,7 @@
           Вступить в Переговорку
           <span class="arrow" aria-hidden="true">→</span>
         </a>
-        <div class="sub">1 990 ₽ / мес · отписка в любой момент</div>
+        <div class="sub">1 990 ₽ / мес · пока ты в клубе</div>
       </div>
     </div>
   </section>
@@ -1519,7 +1556,8 @@
       <span>ИП&nbsp;Соколова&nbsp;Ника&nbsp;Андреевна</span>
       <span>ИНН&nbsp;772345678901</span>
       <span>ОГРНИП&nbsp;325774600123456</span>
-      <a href="mailto:hello@peregovorka.club">hello@peregovorka.club</a>
+      <a href="mailto:nika.tells.chat@yandex.com">nika.tells.chat@yandex.com</a>
+      <a href="https://t.me/tells_nika" target="_blank" rel="noopener">@tells_nika</a>
     </div>
     <a href="#top" class="f-top" aria-label="Вернуться наверх">
       <span class="arr" aria-hidden="true"></span>
