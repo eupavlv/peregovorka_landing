@@ -458,6 +458,7 @@
   @media (prefers-reduced-motion: reduce){
     .caret{ animation: none; opacity: 1; }
   }
+  .h-mono{ font-family: var(--mono); }
   .h-section{
     font-family: var(--sans);
     font-weight: 600;
@@ -473,10 +474,12 @@
     line-height: 1.15;
     letter-spacing: -.01em;
     color: var(--ink);
+    margin-bottom: 6px;
   }
   .lead{
     font-size: 18px; line-height: 1.45; color: var(--ink-soft);
     text-wrap: pretty;
+    max-width: 620px;
   }
   @media (min-width: 720px){ .lead{ font-size: 22px; } }
   .body{ font-size: 16px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
@@ -657,7 +660,7 @@
   .section-head h2{ color: #fff; }
   .section-head .h-section{ color: #fff; }
   .section-path{
-    font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.6);
+    font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.9);
     text-align: right;
     white-space: nowrap;
     overflow: hidden;
@@ -693,7 +696,7 @@
   .big-folders{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px 16px;
+    gap: 8px 16px;
     padding: 18px 14px 14px;
     border: 2px dashed rgba(255,255,255,.5);
     border-radius: 14px;
@@ -723,7 +726,7 @@
     appearance: none;
     background: transparent;
     border: 0;
-    padding: 14px 8px 16px;
+    padding: 10px 8px 10px;
     border-radius: 14px;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     cursor: pointer;
@@ -743,15 +746,17 @@
     filter: drop-shadow(0 14px 18px rgba(0,0,0,.35));
   }
   .bf-label{
-    font-family: var(--sans); font-weight: 600; font-size: 22px;
+    font-family: var(--mono); font-weight: 600; font-size: 22px;
+    line-height: 1.15;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0,0,0,.4);
     letter-spacing: -.01em;
+    margin-top: 8px;
   }
   .bf-meta{
     font-family: var(--mono); font-size: 11px;
-    color: rgba(255,255,255,.78);
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.35);
   }
 
   /* ---------- modal ---------- */
@@ -979,7 +984,7 @@
     font-weight: 700; font-size: 12px;
   }
   .check.ok{ background: var(--green); color: #fff; }
-  .check.no{ background: var(--bar); color: var(--ink-soft); }
+  .check.no{ background: var(--accent); color: #fff; }
 
   /* ---------- 07 reviews ---------- */
   .cases-empty{
@@ -1035,7 +1040,7 @@
   @media (min-width: 880px){ .price-row{ grid-template-columns: 1fr 1fr; gap: 48px; } }
   .price-tag{
     font-family: var(--sans); font-weight: 600;
-    font-size: clamp(72px, 14vw, 168px);
+    font-size: 88px;
     line-height: .85;
     letter-spacing: -.04em;
     color: var(--accent);
@@ -1054,6 +1059,8 @@
     text-decoration-thickness: 2px;
   }
   .price-meta{ font-family: var(--mono); font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+  .price-tag-sub{ margin-top: 4px; }
+  .price-cta{ width: 100%; }
   .price-invite{
     font-size: 14px;
     line-height: 1.55;
@@ -1121,14 +1128,14 @@
   html{ scroll-behavior: smooth; }
   .footer{
     margin-top: 96px;
-    color: rgba(255,255,255,.78);
+    color: #fff;
     font-family: var(--mono);
     font-size: 12px;
     display: grid;
     grid-template-columns: 1fr;
     gap: 22px;
     padding: 24px 4px 0;
-    border-top: 1px dashed rgba(255,255,255,.22);
+    border-top: 1px dashed rgba(255,255,255,.35);
     line-height: 1.55;
   }
   @media (min-width: 720px){
@@ -1140,16 +1147,16 @@
   }
   .footer .f-col{ display: flex; flex-direction: column; gap: 8px; }
   .footer .f-col strong{ color: #fff; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 11px; }
-  .footer .f-col span{ color: rgba(255,255,255,.7); }
+  .footer .f-col span{ color: #fff; }
   .footer .f-col a{
-    color: rgba(255,255,255,.85);
+    color: #fff;
     text-decoration: none;
-    border-bottom: 1px dashed rgba(255,255,255,.35);
+    border-bottom: 1px dashed rgba(255,255,255,.6);
     width: max-content;
     padding-bottom: 1px;
   }
-  .footer .f-col a:hover{ color: #fff; border-bottom-color: rgba(255,255,255,.8); }
-  .footer .f-tag{ color: rgba(255,255,255,.6); font-size: 11px; }
+  .footer .f-col a:hover{ border-bottom-color: #fff; }
+  .footer .f-tag{ color: rgba(255,255,255,.88); font-size: 11px; }
 
   /* back-to-top button (right column) */
   .footer .f-top{
