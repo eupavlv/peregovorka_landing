@@ -80,6 +80,13 @@
     const closeBtn = document.getElementById('modal-close-btn');
     let lastTrigger = null;
 
+    const ICON = {
+      play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
+      music: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+      radio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>',
+      message: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    };
+
     const FOLDERS = {
       lessons: {
         title: '~/peregovorka/уроки',
@@ -109,7 +116,7 @@
           ]},
         ],
         ext: '.mp4',
-        icon: '▤',
+        icon: ICON.play,
       },
       podcasts: {
         title: '~/peregovorka/подкасты',
@@ -139,7 +146,7 @@
           'Поведение в&nbsp;кризис',
         ],
         ext: '.mp3',
-        icon: '♪',
+        icon: ICON.music,
       },
       lives: {
         title: '~/peregovorka/эфиры',
@@ -161,7 +168,7 @@
           ]},
         ],
         ext: '.live',
-        icon: '●',
+        icon: ICON.radio,
       },
       digest: {
         title: '~/peregovorka/дайджест',
@@ -182,7 +189,7 @@
           'Технические вопросы',
         ],
         ext: '.chan',
-        icon: '✉',
+        icon: ICON.message,
       },
     };
 
@@ -191,6 +198,7 @@
       if(!data) return;
       lastTrigger = trigger || null;
 
+      win.dataset.folder = key;
       titleEl.textContent = data.title;
       metaEl.textContent  = data.meta;
 
@@ -215,7 +223,7 @@
         html += '</div>';
       }
       html += '<div class="modal-cta-row">';
-      html += '  <a href="#price" class="btn js-cta" data-modal-cta>Вступить в Переговорку <span class="arrow">→</span></a>';
+      html += '  <a href="#price" class="btn js-cta" data-modal-cta>Вступить в Переговорку <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>';
       html += '</div>';
       bodyEl.innerHTML = html;
 

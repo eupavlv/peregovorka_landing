@@ -406,7 +406,7 @@
   }
   .btn:hover{ background: rgb(178,55,72); }
   .btn:active{ transform: translateY(1px); box-shadow: 0 1px 0 var(--accent-deep), 0 6px 14px -8px rgba(162,45,62,.5); }
-  .btn .arrow{ transition: transform .15s ease; }
+  .btn .arrow{ width: 18px; height: 18px; flex-shrink: 0; transition: transform .15s ease; }
   .btn:hover .arrow{ transform: translateX(3px); }
   .btn.ghost{
     background: var(--bar);
@@ -928,7 +928,13 @@
   }
   .file-row + .file-row{ border-top: 1px solid var(--line-2); }
   .file-row:hover{ background: rgba(78,121,161,.08); }
-  .file-row .ic{ flex-shrink: 0; opacity: .9; }
+  .file-row .ic{ flex-shrink: 0; width: 16px; height: 16px; display: inline-flex; align-items: center; color: var(--folder-color, var(--ink-soft)); }
+  .file-row .ic svg{ width: 100%; height: 100%; }
+  .modal[data-folder="lessons"]  { --folder-color: #5E94C9; }
+  .modal[data-folder="podcasts"] { --folder-color: #6DA84F; }
+  .modal[data-folder="lives"]    { --folder-color: #C95A60; }
+  .modal[data-folder="chat"]     { --folder-color: #D49B2C; }
+  .modal[data-folder="digest"]   { --folder-color: #8E67A8; }
   .file-row .ext{ font-family: var(--mono); font-size: 11px; color: var(--ink-soft); margin-left: auto; flex-shrink: 0; }
 
   /* ---------- 04 live formats ---------- */
@@ -980,9 +986,9 @@
   }
   .checklist li:last-child{ border-bottom: none; }
   .check{ flex-shrink: 0; width: 22px; height: 22px; border-radius: 999px;
-    display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono);
-    font-weight: 700; font-size: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
   }
+  .check svg{ width: 14px; height: 14px; }
   .check.ok{ background: var(--green); color: #fff; }
   .check.no{ background: var(--accent); color: #fff; }
 
@@ -1183,21 +1189,9 @@
     border-color: rgba(255,255,255,.85);
     transform: translateY(-2px);
   }
-  .footer .f-top .arr{
-    display: inline-block;
+  .footer .f-top .icon-arrow-up-circle{
     width: 18px; height: 18px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    position: relative;
-  }
-  .footer .f-top .arr::before{
-    content: "";
-    position: absolute;
-    left: 50%; top: 54%;
-    width: 6px; height: 6px;
-    border-left: 1.5px solid currentColor;
-    border-top: 1.5px solid currentColor;
-    transform: translate(-50%, -50%) rotate(45deg);
+    flex-shrink: 0;
   }
   @media (max-width: 719px){
     .footer .f-top{ justify-self: stretch; justify-content: center; }
