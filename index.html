@@ -10,17 +10,17 @@
 </head>
 <body>
 
-<!-- ========== Decorative menubar ========== -->
-<div class="menubar" role="presentation">
-  <span class="logo">▦ Переговорка</span>
-  <span class="item hide-sm">File</span>
-  <span class="item hide-sm">Edit</span>
-  <span class="item hide-sm">View</span>
-  <span class="item hide-sm">Help</span>
+<!-- ========== Top menubar / navigation ========== -->
+<nav class="menubar" aria-label="Навигация">
+  <a href="#top" class="logo">▦ Переговорка</a>
+  <a href="#about"  class="item hide-sm">Что внутри</a>
+  <a href="#who"    class="item hide-sm">Кому подойдёт</a>
+  <a href="#cases"  class="item hide-sm">Кейсы</a>
+  <a href="#price"  class="item hide-sm">Цена</a>
+  <a href="#faq"    class="item hide-sm">FAQ</a>
   <span class="spacer"></span>
-  <span class="item hide-sm">Nika Tells</span>
   <span class="clock" id="clock">—</span>
-</div>
+</nav>
 
 <main class="desk" id="top">
 
@@ -83,6 +83,20 @@
       </div>
     </div>
   </section>
+
+  <!-- ========== Ticker: тема месяца ========== -->
+  <div class="ticker-wrap">
+    <section class="ticker" aria-label="Тема месяца">
+      <div class="ticker-track" aria-hidden="true">
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+        <span class="ticker-item">Тема месяца&nbsp;— посты-карусели</span>
+      </div>
+    </section>
+  </div>
 
   <!-- ========== 02 ЧТО ВНУТРИ ========== -->
   <section class="section" id="about" data-screen-label="02 Что внутри">
@@ -151,7 +165,7 @@
   </section>
 
   <!-- ========== 06 КОМУ ========== -->
-  <section class="section" data-screen-label="06 Кому подойдёт">
+  <section class="section" id="who" data-screen-label="06 Кому подойдёт">
     <header class="section-head">
       <div>
         <h2 class="h-section">Кому подойдёт</h2>
@@ -195,7 +209,7 @@
   </section>
 
   <!-- ========== 07 КЕЙСЫ ========== -->
-  <section class="section" data-screen-label="07 Кейсы">
+  <section class="section" id="cases" data-screen-label="07 Кейсы">
     <header class="section-head">
       <div>
         <h2 class="h-section">Кейсы</h2>
@@ -203,15 +217,27 @@
       <div class="section-path">~/peregovorka/cases</div>
     </header>
 
-    <div class="win cases-empty">
-      <div class="win-bar">
-        <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
-        <div class="win-title">cases.md</div>
-      </div>
-      <div class="win-body">
-        <p class="body">
-          Реальные истории участников с&nbsp;цифрами — рост подписчиков, охваты, просмотры. Первые результаты уже собираются, скоро появятся здесь.
-        </p>
+    <div class="folders-wrap">
+      <div class="big-folders big-folders--two">
+        <button type="button" class="big-folder" data-folder="reviews" aria-haspopup="dialog">
+          <svg class="bf-icon" viewBox="0 0 200 160" fill="none" aria-hidden="true">
+            <path d="M6 32c0-8 6-14 14-14h44l16 16h94c8 0 14 6 14 14v94c0 8-6 14-14 14H20c-8 0-14-6-14-14V32z" fill="#5E94C9"></path>
+            <path d="M6 44h182v82c0 8-6 14-14 14H20c-8 0-14-6-14-14V44z" fill="#9BC1E0"></path>
+            <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
+          </svg>
+          <span class="bf-label">Отзывы</span>
+          <span class="bf-meta">скрины участников</span>
+        </button>
+
+        <button type="button" class="big-folder" data-folder="myblog" aria-haspopup="dialog">
+          <svg class="bf-icon" viewBox="0 0 200 160" fill="none" aria-hidden="true">
+            <path d="M6 32c0-8 6-14 14-14h44l16 16h94c8 0 14 6 14 14v94c0 8-6 14-14 14H20c-8 0-14-6-14-14V32z" fill="#5E94C9"></path>
+            <path d="M6 44h182v82c0 8-6 14-14 14H20c-8 0-14-6-14-14V44z" fill="#9BC1E0"></path>
+            <rect x="6" y="44" width="182" height="3" fill="rgba(255,255,255,.55)"></rect>
+          </svg>
+          <span class="bf-label">Мой блог</span>
+          <span class="bf-meta">результаты Ники</span>
+        </button>
       </div>
     </div>
   </section>
@@ -262,7 +288,7 @@
   </section>
 
   <!-- ========== 09 FAQ ========== -->
-  <section class="section" data-screen-label="09 FAQ">
+  <section class="section" id="faq" data-screen-label="09 FAQ">
     <header class="section-head">
       <div>
         <h2 class="h-section">Частые вопросы</h2>
@@ -410,7 +436,6 @@
     <div class="modal-bar">
       <button type="button" class="modal-close" id="modal-close-btn" aria-label="Закрыть"></button>
       <div class="modal-title" id="modal-title-text">folder</div>
-      <div class="modal-meta" id="modal-meta-text"></div>
     </div>
     <div class="modal-body" id="modal-body">
       <!-- content injected by JS -->

@@ -75,7 +75,6 @@
     const overlay = document.getElementById('folder-modal');
     const win     = document.getElementById('modal-window');
     const titleEl = document.getElementById('modal-title-text');
-    const metaEl  = document.getElementById('modal-meta-text');
     const bodyEl  = document.getElementById('modal-body');
     const closeBtn = document.getElementById('modal-close-btn');
     let lastTrigger = null;
@@ -191,6 +190,20 @@
         ext: '.chan',
         icon: ICON.message,
       },
+      reviews: {
+        title: '~/peregovorka/отзывы',
+        meta:  '',
+        intro: 'Скрины отзывов участников — что забирают из&nbsp;клуба и&nbsp;как это меняет их&nbsp;подход к&nbsp;контенту. Скоро появятся здесь.',
+        ext: '',
+        icon: '',
+      },
+      myblog: {
+        title: '~/peregovorka/мой-блог',
+        meta:  '',
+        intro: 'Результаты Ники — рост охватов, просмотры, вовлечённость. Скрины из&nbsp;личной статистики. Скоро появятся здесь.',
+        ext: '',
+        icon: '',
+      },
     };
 
     function open(key, trigger){
@@ -200,7 +213,6 @@
 
       win.dataset.folder = key;
       titleEl.textContent = data.title;
-      metaEl.textContent  = data.meta;
 
       function renderItem(name){
         return '<div class="file-row"><span class="ic">' + data.icon + '</span> ' + name + ' <span class="ext">' + data.ext + '</span></div>';
