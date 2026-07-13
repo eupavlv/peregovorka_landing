@@ -206,6 +206,43 @@
       },
     };
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function setOriginFrom(trigger){
+      if(!trigger || reducedMotion.matches){
+        win.style.transition = '';
+        win.style.transform = '';
+        win.style.removeProperty('--from-dx');
+        win.style.removeProperty('--from-dy');
+        return;
+      }
+      // 1. Freeze transitions and neutralize transform so we can measure the
+      //    modal at its natural resting position (getBoundingClientRect returns
+      //    post-transform coords; the CSS initial transform scales it to .06,
+      //    which would give a garbage "center").
+      win.style.transition = 'none';
+      win.style.transform = 'none';
+      void win.offsetHeight;
+
+      const tRect = trigger.getBoundingClientRect();
+      const tx = tRect.left + tRect.width / 2;
+      const ty = tRect.top + tRect.height / 2;
+      const mRect = win.getBoundingClientRect();
+      const mx = mRect.left + mRect.width / 2;
+      const my = mRect.top + mRect.height / 2;
+
+      win.style.setProperty('--from-dx', (tx - mx) + 'px');
+      win.style.setProperty('--from-dy', (ty - my) + 'px');
+
+      // 2. Hand back to CSS: initial transform re-applies with fresh vars, still
+      //    frozen (no transition). Reflow to commit.
+      win.style.transform = '';
+      void win.offsetHeight;
+
+      // 3. Restore transition; next frame the .open flip runs the growth.
+      win.style.transition = '';
+    }
+
     function open(key, trigger){
       const data = FOLDERS[key];
       if(!data) return;
@@ -239,20 +276,24 @@
       html += '</div>';
       bodyEl.innerHTML = html;
 
-      overlay.hidden = false;
-      requestAnimationFrame(function(){ overlay.classList.add('open'); });
+      // Content is in place; compute origin then trigger transition.
+      setOriginFrom(trigger);
+      requestAnimationFrame(function(){
+        overlay.classList.add('open');
+      });
       document.body.classList.add('modal-locked');
-      setTimeout(function(){ closeBtn.focus(); }, 50);
+      setTimeout(function(){ closeBtn.focus(); }, 60);
     }
 
     function close(){
+      // Keep origin CSS vars intact so the modal collapses back toward the folder.
       overlay.classList.remove('open');
       document.body.classList.remove('modal-locked');
+      const dur = reducedMotion.matches ? 60 : 320;
       setTimeout(function(){
-        overlay.hidden = true;
         bodyEl.innerHTML = '';
         if(lastTrigger && lastTrigger.focus) lastTrigger.focus();
-      }, 220);
+      }, dur);
     }
 
     document.querySelectorAll('.big-folder').forEach(function(btn){
@@ -265,6 +306,35 @@
       const a = e.target.closest('[data-modal-cta]');
       if(a) close();
     });
+  })();
+
+  // folder reveal on scroll («листание офиса»)
+  (function(){
+    if(!('IntersectionObserver' in window)) return;
+    const containers = document.querySelectorAll('.big-folders');
+    if(!containers.length) return;
+    document.documentElement.classList.add('js-reveal');
+    containers.forEach(function(container){
+      container.querySelectorAll('.big-folder').forEach(function(btn, i){
+        btn.style.setProperty('--i', i);
+      });
+    });
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        const container = e.target;
+        container.querySelectorAll('.big-folder').forEach(function(btn){
+          btn.classList.add('revealed');
+          btn.addEventListener('transitionend', function done(ev){
+            if(ev.propertyName !== 'opacity') return;
+            btn.classList.add('reveal-done');
+            btn.removeEventListener('transitionend', done);
+          });
+        });
+        io.unobserve(container);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    containers.forEach(function(c){ io.observe(c); });
   })();
 
   // sticky cta after hero
