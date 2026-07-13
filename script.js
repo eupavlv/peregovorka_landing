@@ -76,6 +76,7 @@
     const win     = document.getElementById('modal-window');
     const titleEl = document.getElementById('modal-title-text');
     const bodyEl  = document.getElementById('modal-body');
+    const footEl  = document.getElementById('modal-foot');
     const closeBtn = document.getElementById('modal-close-btn');
     let lastTrigger = null;
 
@@ -187,7 +188,7 @@
           'Новости платформ',
           'Технические вопросы',
         ],
-        ext: '.chan',
+        ext: '',
         icon: ICON.message,
       },
       reviews: {
@@ -252,7 +253,7 @@
       titleEl.textContent = data.title;
 
       function renderItem(name){
-        return '<div class="file-row"><span class="ic">' + data.icon + '</span> ' + name + ' <span class="ext">' + data.ext + '</span></div>';
+        return '<div class="file-row"><span class="ic">' + data.icon + '</span> ' + name + '</div>';
       }
 
       let html = '';
@@ -271,10 +272,14 @@
         }
         html += '</div>';
       }
-      html += '<div class="modal-cta-row">';
-      html += '  <a href="#price" class="btn js-cta" data-modal-cta>Вступить в Переговорку <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>';
-      html += '</div>';
       bodyEl.innerHTML = html;
+
+      // CTA lives in the fixed footer so it stays pinned while the body scrolls
+      footEl.innerHTML =
+        '<a href="#price" class="btn js-cta" data-modal-cta>Вступить в Переговорку <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>';
+
+      // start scrolled at the top each time
+      bodyEl.scrollTop = 0;
 
       // Content is in place; compute origin then trigger transition.
       setOriginFrom(trigger);
@@ -292,6 +297,7 @@
       const dur = reducedMotion.matches ? 60 : 320;
       setTimeout(function(){
         bodyEl.innerHTML = '';
+        footEl.innerHTML = '';
         if(lastTrigger && lastTrigger.focus) lastTrigger.focus();
       }, dur);
     }
@@ -302,7 +308,7 @@
     closeBtn.addEventListener('click', close);
     overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && overlay.classList.contains('open')) close(); });
-    bodyEl.addEventListener('click', function(e){
+    footEl.addEventListener('click', function(e){
       const a = e.target.closest('[data-modal-cta]');
       if(a) close();
     });
@@ -335,6 +341,33 @@
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
     containers.forEach(function(c){ io.observe(c); });
+  })();
+
+  // cookie banner (152-ФЗ / Роскомнадзор — уведомление о cookie)
+  (function(){
+    const bar = document.getElementById('cookiebar');
+    if(!bar) return;
+    const KEY = 'peregovorka.cookieConsent';
+    let stored = null;
+    try { stored = localStorage.getItem(KEY); } catch(e){ /* приватный режим */ }
+
+    // уже соглашался — не показываем
+    if(stored === 'accepted') return;
+
+    bar.hidden = false;
+    // показать после первого кадра, чтобы сработала анимация
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ bar.classList.add('show'); });
+    });
+
+    function decide(value){
+      try { localStorage.setItem(KEY, value); } catch(e){ /* ignore */ }
+      bar.classList.remove('show');
+      setTimeout(function(){ bar.hidden = true; }, 420);
+    }
+
+    const accept = document.getElementById('cookie-accept');
+    if(accept) accept.addEventListener('click', function(){ decide('accepted'); });
   })();
 
   // sticky cta after hero
